@@ -6,15 +6,15 @@
   
   <title>DDD实践心得 | Vinci&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="DDD实践心得ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainServic">
+  <meta name="description" content="ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainService仅仅包含领域">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDD实践心得">
 <meta property="og:url" content="http://example.com/2020/12/22/ddd-notes/README/index.html">
 <meta property="og:site_name" content="Vinci&#39;s blog">
-<meta property="og:description" content="DDD实践心得ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainServic">
+<meta property="og:description" content="ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainService仅仅包含领域">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:53:19.053Z">
-<meta property="article:modified_time" content="2020-12-22T05:58:41.167Z">
+<meta property="article:modified_time" content="2020-12-22T06:25:56.122Z">
 <meta property="article:author" content="Vinci Xu">
 <meta name="twitter:card" content="summary">
   
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="DDD实践心得"><a href="#DDD实践心得" class="headerlink" title="DDD实践心得"></a>DDD实践心得</h1><h2 id="ApplicationService-vs-DomainService"><a href="#ApplicationService-vs-DomainService" class="headerlink" title="ApplicationService vs DomainService"></a>ApplicationService vs DomainService</h2><ul>
+        <h2 id="ApplicationService-vs-DomainService"><a href="#ApplicationService-vs-DomainService" class="headerlink" title="ApplicationService vs DomainService"></a>ApplicationService vs DomainService</h2><ul>
 <li>两者的相同处：都是对领域对象的组装。</li>
 <li>两者不同处：<code>ApplicationService</code>不应该包含业务逻辑。</li>
 <li>如何判断是否包含逻辑：当一个<code>Service</code>中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个<code>Service</code>包含了业务逻辑</li>
@@ -119,7 +119,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/ddd-notes/README/" data-id="ckizkw7tw0004zolm1va4a8i5" data-title="DDD实践心得" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/ddd-notes/README/" data-id="ckizlxyvm000224lm7cmvcmwh" data-title="DDD实践心得" class="article-share-link">分享</a>
       
       
       
@@ -187,7 +187,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

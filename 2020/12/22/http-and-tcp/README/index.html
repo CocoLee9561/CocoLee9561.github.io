@@ -6,15 +6,15 @@
   
   <title>http和tcp连接小记 | Vinci&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="http和tcp连接小记TCP 短连接与长连接短连接与长连接的关键区分在于，是否复用TCP连接，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。所以实现长连接一般都会有几个关键参数：  最大连接数: 其实就是连接池中保存连接数上限 过期时间: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除  在 http1.0 协议">
+  <meta name="description" content="TCP 短连接与长连接短连接与长连接的关键区分在于，是否复用TCP连接，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。所以实现长连接一般都会有几个关键参数：  最大连接数: 其实就是连接池中保存连接数上限 过期时间: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除  在 http1.0 协议中，需要指定 Conne">
 <meta property="og:type" content="article">
 <meta property="og:title" content="http和tcp连接小记">
 <meta property="og:url" content="http://example.com/2020/12/22/http-and-tcp/README/index.html">
 <meta property="og:site_name" content="Vinci&#39;s blog">
-<meta property="og:description" content="http和tcp连接小记TCP 短连接与长连接短连接与长连接的关键区分在于，是否复用TCP连接，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。所以实现长连接一般都会有几个关键参数：  最大连接数: 其实就是连接池中保存连接数上限 过期时间: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除  在 http1.0 协议">
+<meta property="og:description" content="TCP 短连接与长连接短连接与长连接的关键区分在于，是否复用TCP连接，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。所以实现长连接一般都会有几个关键参数：  最大连接数: 其实就是连接池中保存连接数上限 过期时间: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除  在 http1.0 协议中，需要指定 Conne">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:53:19.068Z">
-<meta property="article:modified_time" content="2020-12-22T05:58:32.279Z">
+<meta property="article:modified_time" content="2020-12-22T06:26:07.785Z">
 <meta property="article:author" content="Vinci Xu">
 <meta name="twitter:card" content="summary">
   
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="http和tcp连接小记"><a href="#http和tcp连接小记" class="headerlink" title="http和tcp连接小记"></a>http和tcp连接小记</h1><h2 id="TCP-短连接与长连接"><a href="#TCP-短连接与长连接" class="headerlink" title="TCP 短连接与长连接"></a>TCP 短连接与长连接</h2><p>短连接与长连接的关键区分在于，<code>是否复用TCP连接</code>，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。<br>所以实现长连接一般都会有几个关键参数：</p>
+        <h2 id="TCP-短连接与长连接"><a href="#TCP-短连接与长连接" class="headerlink" title="TCP 短连接与长连接"></a>TCP 短连接与长连接</h2><p>短连接与长连接的关键区分在于，<code>是否复用TCP连接</code>，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。<br>所以实现长连接一般都会有几个关键参数：</p>
 <ul>
 <li><code>最大连接数</code>: 其实就是连接池中保存连接数上限</li>
 <li><code>过期时间</code>: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除</li>
@@ -149,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/http-and-tcp/README/" data-id="ckizkw7tw0003zolm0brodu5m" data-title="http和tcp连接小记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/http-and-tcp/README/" data-id="ckizlxyvo000524lm94bydyr5" data-title="http和tcp连接小记" class="article-share-link">分享</a>
       
       
       
@@ -217,7 +217,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

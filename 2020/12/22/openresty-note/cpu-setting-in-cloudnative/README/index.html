@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Vinci&#39;s blog</title>
+  <title>Nginx在云上环境的CPU最佳实践 | Vinci&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nginx在云上环境的CPU最佳实践目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，">
+  <meta name="description" content="目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，那么我们要调查问题其实跟 Nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vinci&#39;s blog">
+<meta property="og:title" content="Nginx在云上环境的CPU最佳实践">
 <meta property="og:url" content="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/index.html">
 <meta property="og:site_name" content="Vinci&#39;s blog">
-<meta property="og:description" content="Nginx在云上环境的CPU最佳实践目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，">
+<meta property="og:description" content="目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，那么我们要调查问题其实跟 Nginx">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:53:19.170Z">
-<meta property="article:modified_time" content="2020-12-21T08:22:22.588Z">
+<meta property="article:modified_time" content="2020-12-22T06:28:46.430Z">
 <meta property="article:author" content="Vinci Xu">
 <meta name="twitter:card" content="summary">
   
@@ -87,9 +87,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Nginx在云上环境的CPU最佳实践
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Nginx在云上环境的CPU最佳实践"><a href="#Nginx在云上环境的CPU最佳实践" class="headerlink" title="Nginx在云上环境的CPU最佳实践"></a>Nginx在云上环境的CPU最佳实践</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
 <li><a href="#Nginx%E7%9A%84CPU%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE">Nginx的CPU相关设置</a></li>
 <li><a href="#k8s%E7%9A%84CPU%E7%AD%96%E7%95%A5">k8s的CPU策略</a></li>
@@ -143,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" data-id="ckizkw7u7000kzolm0koa8sej" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" data-id="ckizlxyvx000k24lm3srpc79p" data-title="Nginx在云上环境的CPU最佳实践" class="article-share-link">分享</a>
       
       
       
@@ -211,7 +221,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

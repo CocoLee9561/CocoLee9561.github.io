@@ -6,15 +6,15 @@
   
   <title>Leader选举机制 | Vinci&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Leader选举机制简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并">
+  <meta name="description" content="简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并且利用了k8s中en">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Leader选举机制">
 <meta property="og:url" content="http://example.com/2020/12/22/leader-election/README/index.html">
 <meta property="og:site_name" content="Vinci&#39;s blog">
-<meta property="og:description" content="Leader选举机制简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并">
+<meta property="og:description" content="简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并且利用了k8s中en">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:53:19.088Z">
-<meta property="article:modified_time" content="2020-12-22T05:58:02.425Z">
+<meta property="article:modified_time" content="2020-12-22T06:26:22.464Z">
 <meta property="article:author" content="Vinci Xu">
 <meta name="twitter:card" content="summary">
   
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自<code>Paxos</code>或者其简化版本<code>Raft</code>。</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自<code>Paxos</code>或者其简化版本<code>Raft</code>。</p>
 <h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a></li>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Raft">Raft</a></li>
@@ -110,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/leader-election/README/" data-id="ckizkw7tz0008zolm2b7mbk72" data-title="Leader选举机制" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/leader-election/README/" data-id="ckizlxyvq000824lm2xi38dz6" data-title="Leader选举机制" class="article-share-link">分享</a>
       
       
       
@@ -178,7 +178,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

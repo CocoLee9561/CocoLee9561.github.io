@@ -97,7 +97,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Prometheus"><a href="#Prometheus" class="headerlink" title="Prometheus"></a>Prometheus</h1><h2 id="Prometheus远程存储优化"><a href="#Prometheus远程存储优化" class="headerlink" title="Prometheus远程存储优化"></a>Prometheus远程存储优化</h2><p>Prometheus 以每两个小时为一个块，存储到磁盘中，内存保存近两个小时的内容，同时也会写 <code>WAL(write-ahead-log)</code>，预写日志文件wal以128MB的段存储在目录中。这些文件包含尚未压缩的原始数据，因此它们比常规的块文件要大。Prometheus将至少保留3个预写日志文件，但是高流量服务器可能会看到三个以上的WAL文件，因为它需要保留至少两个小时的原始数据。</p>
+        <h2 id="Prometheus远程存储优化"><a href="#Prometheus远程存储优化" class="headerlink" title="Prometheus远程存储优化"></a>Prometheus远程存储优化</h2><p>Prometheus 以每两个小时为一个块，存储到磁盘中，内存保存近两个小时的内容，同时也会写 <code>WAL(write-ahead-log)</code>，预写日志文件wal以128MB的段存储在目录中。这些文件包含尚未压缩的原始数据，因此它们比常规的块文件要大。Prometheus将至少保留3个预写日志文件，但是高流量服务器可能会看到三个以上的WAL文件，因为它需要保留至少两个小时的原始数据。</p>
 <p>这些块会在后台被压缩成更大的块以节省磁盘，最大长度取决于 <code>storage.tsdb.max-block-duration</code> 参数的设置，默认为保留时间的 <code>10%</code>。<br>一般来说 <code>storage.tsdb.max-block-duration</code> = <code>storage.tsdb.min-block-duration</code> = <code>2h</code> 就相当于禁用了压缩功能，<br>但是别让它们低于 <code>2h</code>，否则有以下的问题：</p>
 <ul>
 <li>落盘过于频繁，这会很大程度影响 <code>Promethues</code> 的吞吐量。</li>
@@ -121,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/prometheus/README/" data-id="ckizkw7u6000izolm7tebeatl" data-title="Prometheus" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/prometheus/README/" data-id="ckizlxyvu000e24lm8nj9ca9b" data-title="Prometheus" class="article-share-link">分享</a>
       
       
       
@@ -155,7 +155,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="简单易懂的-pprof-手册"><a href="#简单易懂的-pprof-手册" class="headerlink" title="简单易懂的 pprof 手册"></a>简单易懂的 pprof 手册</h1><p>推荐阅读</p>
+        <p>推荐阅读</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019222661">实战Go内存泄露</a></li>
 <li><a target="_blank" rel="noopener" href="https://dave.cheney.net/high-performance-go-workshop/dotgo-paris.html">High Performance Go Workshop</a></li>
@@ -208,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/pprof/README/" data-id="ckizkw7u2000dzolm2yxx7scu" data-title="简单易懂的 pprof 手册" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/pprof/README/" data-id="ckizlxyvu000f24lm1bql80qm" data-title="简单易懂的 pprof 手册" class="article-share-link">分享</a>
       
       
       
@@ -230,9 +230,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Nginx在云上环境的CPU最佳实践"><a href="#Nginx在云上环境的CPU最佳实践" class="headerlink" title="Nginx在云上环境的CPU最佳实践"></a>Nginx在云上环境的CPU最佳实践</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
 <li><a href="#Nginx%E7%9A%84CPU%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE">Nginx的CPU相关设置</a></li>
 <li><a href="#k8s%E7%9A%84CPU%E7%AD%96%E7%95%A5">k8s的CPU策略</a></li>
@@ -286,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" data-id="ckizkw7u7000kzolm0koa8sej" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" data-id="ckizlxyvx000k24lm3srpc79p" data-title="Nginx在云上环境的CPU最佳实践" class="article-share-link">分享</a>
       
       
       
@@ -320,7 +330,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Openresty-笔记"><a href="#Openresty-笔记" class="headerlink" title="Openresty 笔记"></a>Openresty 笔记</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Openresty 是一个国人将LuaJIT嵌入Nginx进程进而可以使用Nginx来进行开发高性能的Web框架。<br>入门的简介可以参考这个文档，<a target="_blank" rel="noopener" href="https://juejin.im/entry/5ba3abd65188255c8a05f69c">OpenResty 不完全指南</a></p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Openresty 是一个国人将LuaJIT嵌入Nginx进程进而可以使用Nginx来进行开发高性能的Web框架。<br>入门的简介可以参考这个文档，<a target="_blank" rel="noopener" href="https://juejin.im/entry/5ba3abd65188255c8a05f69c">OpenResty 不完全指南</a></p>
 <h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
 <li>很多 lua 的内置函数都是全局变量，把它注册到本地来使用，性能会更好。</li>
 <li>注意 Openresty 当中请求域名时会使用 Nginx 配置的 Dns 服务器，搜索 <code>resolver</code> 了解更多细节（Nginx 实现了一套内置的 DNS 解析）</li>
@@ -333,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/openresty-note/README/" data-id="ckizkw7u3000ezolm20kjea81" data-title="Openresty 笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/openresty-note/README/" data-id="ckizlxyvt000d24lm3ete533k" data-title="Openresty 笔记" class="article-share-link">分享</a>
       
       
       
@@ -367,13 +377,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="网络分析"><a href="#网络分析" class="headerlink" title="网络分析"></a>网络分析</h1><p>在 <code>linux</code> 上我们可以使用 <code>tcpdump</code> 来分析流量包，<code>wireshark</code> 分析包，<code>strace</code> 查看进程调用。<br><code>fiddler</code> 用于分析 http 协议，<code>wireshark</code> 用于分析 tcp/udp 的网络封包</p>
+        <p>在 <code>linux</code> 上我们可以使用 <code>tcpdump</code> 来分析流量包，<code>wireshark</code> 分析包，<code>strace</code> 查看进程调用。<br><code>fiddler</code> 用于分析 http 协议，<code>wireshark</code> 用于分析 tcp/udp 的网络封包</p>
 <h2 id="https-包抓取"><a href="#https-包抓取" class="headerlink" title="https 包抓取"></a>https 包抓取</h2><p>网络流量的这些工具为了能够解析 https 的包，通常都是自己签发证书，然后让系统信任自己证书，以作为中间人去转发、解析 https 流量。<br>如果仅仅只是为了代理 https 流量而不解析，可以使用 http 的隧道协议，使用 <code>CONNECT</code> method 去连接代理服务器，然后代理服务自动转发握手请求，相当于客户端直接与目标服务连接。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/net-analysis/README/" data-id="ckizkw7u0000bzolmga500p7a" data-title="网络分析" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/net-analysis/README/" data-id="ckizlxyvs000c24lm50qwe16w" data-title="网络分析" class="article-share-link">分享</a>
       
       
       
@@ -407,7 +417,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="互斥性与幂等性"><a href="#互斥性与幂等性" class="headerlink" title="互斥性与幂等性"></a>互斥性与幂等性</h2><p>我觉得这两个特性是在系统分析和设计时必须考虑的问题。开始之前，先简单解释下两者的概念。</p>
+        <p>我觉得这两个特性是在系统分析和设计时必须考虑的问题。开始之前，先简单解释下两者的概念。</p>
 <h3 id="什么是互斥性"><a href="#什么是互斥性" class="headerlink" title="什么是互斥性"></a>什么是互斥性</h3><p>要解释互斥性就不得不先提一下 <strong>临界资源</strong>，引用百科的介绍。</p>
 <blockquote>
 <p>一次仅允许一个进程使用的资源称为临界资源。</p>
@@ -490,7 +500,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/mutually-exclusive-and-idempotency/README/" data-id="ckizkw7tz0009zolmcumxh76x" data-title="互斥性与幂等性" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/mutually-exclusive-and-idempotency/README/" data-id="ckizlxyvr000b24lm5s6rd9lq" data-title="互斥性与幂等性" class="article-share-link">分享</a>
       
       
       
@@ -524,7 +534,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="分布式事务笔记"><a href="#分布式事务笔记" class="headerlink" title="分布式事务笔记"></a>分布式事务笔记</h1><p>分布式事务的常见解决方案：</p>
+        <p>分布式事务的常见解决方案：</p>
 <ul>
 <li>2PC: perpare + commit</li>
 <li>3PC: can_commit + pre_commit + do_commit</li>
@@ -567,7 +577,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/microservice-best-practice/distributed-transaction/README/" data-id="ckizkw7u7000jzolmdju80z8l" data-title="分布式事务笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/microservice-best-practice/distributed-transaction/README/" data-id="ckizlxyvw000h24lm54098tql" data-title="分布式事务笔记" class="article-share-link">分享</a>
       
       
       
@@ -601,7 +611,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="分布式一致性"><a href="#分布式一致性" class="headerlink" title="分布式一致性"></a>分布式一致性</h1><p>目前主流算法如下：</p>
+        <p>目前主流算法如下：</p>
 <ul>
 <li>Paxos(  ): 共识算法，实现最为复杂，但是最为全面</li>
 <li>Raft( ETCD, TiDB ): 基于 Paxos 的简化</li>
@@ -613,7 +623,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/microservice-best-practice/distributed-consistence/README/" data-id="ckizkw7u5000gzolmfsqdbn3a" data-title="分布式一致性" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/microservice-best-practice/distributed-consistence/README/" data-id="ckizlxyvv000g24lm2rbi5mmo" data-title="分布式一致性" class="article-share-link">分享</a>
       
       
       
@@ -647,7 +657,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="微服务最佳实践"><a href="#微服务最佳实践" class="headerlink" title="微服务最佳实践"></a>微服务最佳实践</h1><h2 id="一定要做到的点"><a href="#一定要做到的点" class="headerlink" title="一定要做到的点"></a>一定要做到的点</h2><ul>
+        <h2 id="一定要做到的点"><a href="#一定要做到的点" class="headerlink" title="一定要做到的点"></a>一定要做到的点</h2><ul>
 <li>每个请求一定要有 <code>request-id</code>，一般由调用方生成，如果你是在推动一个遗留项目，那么可以在网关或者<code>AOP</code>层去生成它，这样才能够在繁杂的日志中找到特定的请求信息。建议由 <code>uuid</code> 或者 雪花算法生成。</li>
 <li>请求日志和错误日志分离，这么是因为这两者具有完全不同的关注点，且前者格式相对固定。分离他们可以在清洗日志时使用不同的格式。</li>
 <li>如果你们的系统引入了调用链追踪，那么可以使用 <code>request-id</code> 作为 <code>trace-id</code>。</li>
@@ -660,7 +670,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/microservice-best-practice/README/" data-id="ckizkw7u2000czolm9b71dyvk" data-title="微服务最佳实践" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/microservice-best-practice/README/" data-id="ckizlxyvr000a24lm55o7clxz" data-title="微服务最佳实践" class="article-share-link">分享</a>
       
       
       
@@ -672,9 +682,9 @@
 
 
   
-    <article id="post-load-test/wrt-usage/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-load-test/wrk-usage/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/12/22/load-test/wrt-usage/README/" class="article-date">
+    <a href="/2020/12/22/load-test/wrk-usage/README/" class="article-date">
   <time class="dt-published" datetime="2020-12-22T05:53:19.113Z" itemprop="datePublished">2020-12-22</time>
 </a>
     
@@ -686,7 +696,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/12/22/load-test/wrt-usage/README/">Wrk</a>
+      <a class="p-name article-title" href="/2020/12/22/load-test/wrk-usage/README/">Wrk</a>
     </h1>
   
 
@@ -694,7 +704,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Wrk-用法"><a href="#Wrk-用法" class="headerlink" title="Wrk 用法"></a>Wrk 用法</h1><h2 id="Wrk是什么"><a href="#Wrk是什么" class="headerlink" title="Wrk是什么"></a>Wrk是什么</h2><p>wrk是一个开源的http的压测工具，它封装了很多开源项目的，比如<code>redis</code>的<code>ae</code>( <em>一个事件循环的非阻塞网络库，底层封装了 epoll 和 kqueue</em>) 和 <code>nginx</code> 的 <code>http-parser</code>。基于这些优秀的开源项目，所以它的性能相当高。不过也因为它用了<code>epoll</code>和<code>kqueue</code>的原因，所以目前只支持<code>linux</code>平台。<br>同时还集成了<code>LuaJIT</code>，所以可以自己写Lua脚本，放在 <code>/scripts</code> 目录下。<a target="_blank" rel="noopener" href="https://github.com/wg/wrk">点击这里</a> 访问它的 Github。</p>
+        <h2 id="Wrk是什么"><a href="#Wrk是什么" class="headerlink" title="Wrk是什么"></a>Wrk是什么</h2><p>wrk是一个开源的http的压测工具，它封装了很多开源项目的，比如<code>redis</code>的<code>ae</code>( <em>一个事件循环的非阻塞网络库，底层封装了 epoll 和 kqueue</em>) 和 <code>nginx</code> 的 <code>http-parser</code>。基于这些优秀的开源项目，所以它的性能相当高。不过也因为它用了<code>epoll</code>和<code>kqueue</code>的原因，所以目前只支持<code>linux</code>平台。<br>同时还集成了<code>LuaJIT</code>，所以可以自己写Lua脚本，放在 <code>/scripts</code> 目录下。<a target="_blank" rel="noopener" href="https://github.com/wg/wrk">点击这里</a> 访问它的 Github。</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在Github的Release中下载最新版解压即可。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;wg&#x2F;wrk&#x2F;archive&#x2F;4.1.0.tar.gz .&#x2F;</span><br><span class="line">tar -xzvf .&#x2F;4.1.0.tar.gz</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 <p>安装后自行选择是否是否将二进制文件放入<code>$PATH</code>中</p>
@@ -707,7 +717,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/load-test/wrt-usage/README/" data-id="ckizkw7u5000fzolmf6zheuz1" data-title="Wrk" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/load-test/wrk-usage/README/" data-id="ckizlxyvw000i24lmcewzghgd" data-title="Wrk" class="article-share-link">分享</a>
       
       
       
@@ -763,7 +773,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

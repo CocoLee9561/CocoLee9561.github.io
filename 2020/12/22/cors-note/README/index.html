@@ -6,15 +6,15 @@
   
   <title>CORS(Cross-Origin resource sharing) 笔记 | Vinci&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="CORS(Cross-Origin resource sharing) 笔记CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求">
+  <meta name="description" content="CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求区分，只有需预检的请求才会发起OPTIONS，两者的区分参考上面的MDN。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CORS(Cross-Origin resource sharing) 笔记">
 <meta property="og:url" content="http://example.com/2020/12/22/cors-note/README/index.html">
 <meta property="og:site_name" content="Vinci&#39;s blog">
-<meta property="og:description" content="CORS(Cross-Origin resource sharing) 笔记CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求">
+<meta property="og:description" content="CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求区分，只有需预检的请求才会发起OPTIONS，两者的区分参考上面的MDN。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:53:19.036Z">
-<meta property="article:modified_time" content="2020-12-22T05:58:46.405Z">
+<meta property="article:modified_time" content="2020-12-22T06:25:50.473Z">
 <meta property="article:author" content="Vinci Xu">
 <meta name="twitter:card" content="summary">
   
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="CORS-Cross-Origin-resource-sharing-笔记"><a href="#CORS-Cross-Origin-resource-sharing-笔记" class="headerlink" title="CORS(Cross-Origin resource sharing) 笔记"></a>CORS(Cross-Origin resource sharing) 笔记</h1><p>CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">MDN</a></p>
+        <p>CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">MDN</a></p>
 <p>这里只介绍下一些需要注意的点：</p>
 <ul>
 <li>跨域问题只存在于<code>客户端有安全策略限制的情况</code>，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以<code>CORS</code>通常是前端考虑的问题。</li>
@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/cors-note/README/" data-id="ckizkw7tu0001zolm5l3dcbj1" data-title="CORS(Cross-Origin resource sharing) 笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/cors-note/README/" data-id="ckizlxyvk000124lm2hqzeuxr" data-title="CORS(Cross-Origin resource sharing) 笔记" class="article-share-link">分享</a>
       
       
       
@@ -188,7 +188,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>

@@ -97,7 +97,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Vegeta-贝吉塔"><a href="#Vegeta-贝吉塔" class="headerlink" title="Vegeta( 贝吉塔 )"></a>Vegeta( 贝吉塔 )</h1><p>这是一个开源软件，类似 wrk ，但是是用 go 写的，功能更为强大，也更易用一些。</p>
+        <p>这是一个开源软件，类似 wrk ，但是是用 go 写的，功能更为强大，也更易用一些。</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/tsenart/vegeta">Github 地址</a></p>
 <p>下面是命令列表：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">Usage: vegeta [global flags] &lt;command&gt; [command flags]</span><br><span class="line"></span><br><span class="line">global flags:</span><br><span class="line">  -cpus int</span><br><span class="line">    	Number of CPUs to use (defaults to the number of CPUs you have)</span><br><span class="line">  -profile string</span><br><span class="line">    	Enable profiling of [cpu, heap]</span><br><span class="line">  -version</span><br><span class="line">    	Print version and exit</span><br><span class="line"></span><br><span class="line">attack command:</span><br><span class="line">  -body string</span><br><span class="line">    	Requests body file</span><br><span class="line">  -cert string</span><br><span class="line">    	TLS client PEM encoded certificate file</span><br><span class="line">  -chunked</span><br><span class="line">    	Send body with chunked transfer encoding</span><br><span class="line">  -connections int</span><br><span class="line">    	Max open idle connections per target host (default 10000)</span><br><span class="line">  -duration duration</span><br><span class="line">    	Duration of the test [0 &#x3D; forever]</span><br><span class="line">  -format string</span><br><span class="line">    	Targets format [http, json] (default &quot;http&quot;)</span><br><span class="line">  -h2c</span><br><span class="line">    	Send HTTP&#x2F;2 requests without TLS encryption</span><br><span class="line">  -header value</span><br><span class="line">    	Request header</span><br><span class="line">  -http2</span><br><span class="line">    	Send HTTP&#x2F;2 requests when supported by the server (default true)</span><br><span class="line">  -insecure</span><br><span class="line">    	Ignore invalid server TLS certificates</span><br><span class="line">  -keepalive</span><br><span class="line">    	Use persistent connections (default true)</span><br><span class="line">  -key string</span><br><span class="line">    	TLS client PEM encoded private key file</span><br><span class="line">  -laddr value</span><br><span class="line">    	Local IP address (default 0.0.0.0)</span><br><span class="line">  -lazy</span><br><span class="line">    	Read targets lazily</span><br><span class="line">  -max-body value</span><br><span class="line">    	Maximum number of bytes to capture from response bodies. [-1 &#x3D; no limit] (default -1)</span><br><span class="line">  -max-workers uint</span><br><span class="line">    	Maximum number of workers (default 18446744073709551615)</span><br><span class="line">  -name string</span><br><span class="line">    	Attack name</span><br><span class="line">  -output string</span><br><span class="line">    	Output file (default &quot;stdout&quot;)</span><br><span class="line">  -proxy-header value</span><br><span class="line">    	Proxy CONNECT header</span><br><span class="line">  -rate value</span><br><span class="line">    	Number of requests per time unit [0 &#x3D; infinity] (default 50&#x2F;1s)</span><br><span class="line">  -redirects int</span><br><span class="line">    	Number of redirects to follow. -1 will not follow but marks as success (default 10)</span><br><span class="line">  -resolvers value</span><br><span class="line">    	List of addresses (ip:port) to use for DNS resolution. Disables use of local system DNS. (comma separated list)</span><br><span class="line">  -root-certs value</span><br><span class="line">    	TLS root certificate files (comma separated list)</span><br><span class="line">  -targets string</span><br><span class="line">    	Targets file (default &quot;stdin&quot;)</span><br><span class="line">  -timeout duration</span><br><span class="line">    	Requests timeout (default 30s)</span><br><span class="line">  -unix-socket string</span><br><span class="line">    	Connect over a unix socket. This overrides the host address in target URLs</span><br><span class="line">  -workers uint</span><br><span class="line">    	Initial number of workers (default 10)</span><br><span class="line"></span><br><span class="line">encode command:</span><br><span class="line">  -output string</span><br><span class="line">    	Output file (default &quot;stdout&quot;)</span><br><span class="line">  -to string</span><br><span class="line">    	Output encoding [csv, gob, json] (default &quot;json&quot;)</span><br><span class="line"></span><br><span class="line">plot command:</span><br><span class="line">  -output string</span><br><span class="line">    	Output file (default &quot;stdout&quot;)</span><br><span class="line">  -threshold int</span><br><span class="line">    	Threshold of data points above which series are downsampled. (default 4000)</span><br><span class="line">  -title string</span><br><span class="line">    	Title and header of the resulting HTML page (default &quot;Vegeta Plot&quot;)</span><br><span class="line"></span><br><span class="line">report command:</span><br><span class="line">  -buckets string</span><br><span class="line">    	Histogram buckets, e.g.: &quot;[0,1ms,10ms]&quot;</span><br><span class="line">  -every duration</span><br><span class="line">    	Report interval</span><br><span class="line">  -output string</span><br><span class="line">    	Output file (default &quot;stdout&quot;)</span><br><span class="line">  -type string</span><br><span class="line">    	Report type to generate [text, json, hist[buckets], hdrplot] (default &quot;text&quot;)</span><br><span class="line"></span><br><span class="line">examples:</span><br><span class="line">  echo &quot;GET http:&#x2F;&#x2F;localhost&#x2F;&quot; | vegeta attack -duration&#x3D;5s | tee results.bin | vegeta report</span><br><span class="line">  vegeta report -type&#x3D;json results.bin &gt; metrics.json</span><br><span class="line">  cat results.bin | vegeta plot &gt; plot.html</span><br><span class="line">  cat results.bin | vegeta report -type&#x3D;&quot;hist[0,100ms,200ms,300ms]&quot;</span><br></pre></td></tr></table></figure>
@@ -106,7 +106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/load-test/vegeta/README/" data-id="ckizkw7u6000hzolm9b9b9u1t" data-title="Vegeta( 贝吉塔 )" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/load-test/vegeta/README/" data-id="ckizlxyvx000j24lm2opqdll2" data-title="Vegeta( 贝吉塔 )" class="article-share-link">分享</a>
       
       
       
@@ -140,7 +140,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Linux-系统小计"><a href="#Linux-系统小计" class="headerlink" title="Linux 系统小计"></a>Linux 系统小计</h1><h2 id="修改环境变量"><a href="#修改环境变量" class="headerlink" title="修改环境变量"></a>修改环境变量</h2><ul>
+        <h2 id="修改环境变量"><a href="#修改环境变量" class="headerlink" title="修改环境变量"></a>修改环境变量</h2><ul>
 <li>可以通过 <code>export var=value</code> 在当前控制台修改，不会永久生效</li>
 <li>可以通过 以下文件 修改 ，添加 <code>export var=value</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&#x2F;etc&#x2F;profile</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行.</span><br><span class="line">并从&#x2F;etc&#x2F;profile.d目录的配置文件中搜集shell的设置.</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&#x2F;etc&#x2F;bashrc</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取.</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">~&#x2F;.bash_profile</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该</span><br><span class="line">文件仅仅执行一次!默认情况下,他设置一些环境变量,执行用户的.bashrc文件.</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">~&#x2F;.bashrc</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该文件被读取.</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">~&#x2F;.profile</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">在Debian中使用.profile文件代 替.bash_profile文件</span><br><span class="line">.profile(由Bourne Shell和Korn Shell使用)和.login(由C Shell使用)两个文件是.bash_profile的同义词，目的是为了兼容其它Shell。在Debian中使用.profile文件代 替.bash_profile文件。</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">~&#x2F;.bash_logout</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;当每次退出系统(退出bash shell)时,执行该文件</span><br></pre></td></tr></table></figure>
 <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2></li>
@@ -166,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/linux-memo/README/" data-id="ckizkw7u0000azolm20p30lbu" data-title="Linux 系统小计" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/linux-memo/README/" data-id="ckizlxyvq000924lm0p593xe8" data-title="Linux 系统小计" class="article-share-link">分享</a>
       
       
       
@@ -200,7 +200,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自<code>Paxos</code>或者其简化版本<code>Raft</code>。</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自<code>Paxos</code>或者其简化版本<code>Raft</code>。</p>
 <h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a></li>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Raft">Raft</a></li>
@@ -211,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/leader-election/README/" data-id="ckizkw7tz0008zolm2b7mbk72" data-title="Leader选举机制" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/leader-election/README/" data-id="ckizlxyvq000824lm2xi38dz6" data-title="Leader选举机制" class="article-share-link">分享</a>
       
       
       
@@ -245,7 +245,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Kubebuilder-与-Kustomize"><a href="#Kubebuilder-与-Kustomize" class="headerlink" title="Kubebuilder 与 Kustomize"></a>Kubebuilder 与 Kustomize</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为什么会把这两者放在一起记录，是因为最近要做一个<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">Operator</a>，综合考虑了：</p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为什么会把这两者放在一起记录，是因为最近要做一个<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">Operator</a>，综合考虑了：</p>
 <ul>
 <li>KUDO (Kubernetes Universal Declarative Operator)</li>
 <li>kubebuilder</li>
@@ -266,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/kubebuild-and-kustomize/README/" data-id="ckizkw7ty0007zolmbdot0oa9" data-title="Kubebuilder 与 Kustomize" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/kubebuild-and-kustomize/README/" data-id="ckizlxyvp000724lm7cbsc951" data-title="Kubebuilder 与 Kustomize" class="article-share-link">分享</a>
       
       
       
@@ -300,7 +300,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="k8s-笔记"><a href="#k8s-笔记" class="headerlink" title="k8s 笔记"></a>k8s 笔记</h1><p>这里记录一些常用但容易忘记的内容。</p>
+        <p>这里记录一些常用但容易忘记的内容。</p>
 <h2 id="存储相关"><a href="#存储相关" class="headerlink" title="存储相关"></a>存储相关</h2><h3 id="ConfigMap-热更新"><a href="#ConfigMap-热更新" class="headerlink" title="ConfigMap 热更新"></a>ConfigMap 热更新</h3><p>更新configmap后：</p>
 <ul>
 <li>使用该configmap的环境变量和命令行参数不会触发更新。</li>
@@ -340,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/k8s-notes/README/" data-id="ckizkw7tx0005zolm2q9a3vtj" data-title="k8s 笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/k8s-notes/README/" data-id="ckizlxyvo000624lm2sf7esvd" data-title="k8s 笔记" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +374,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="http和tcp连接小记"><a href="#http和tcp连接小记" class="headerlink" title="http和tcp连接小记"></a>http和tcp连接小记</h1><h2 id="TCP-短连接与长连接"><a href="#TCP-短连接与长连接" class="headerlink" title="TCP 短连接与长连接"></a>TCP 短连接与长连接</h2><p>短连接与长连接的关键区分在于，<code>是否复用TCP连接</code>，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。<br>所以实现长连接一般都会有几个关键参数：</p>
+        <h2 id="TCP-短连接与长连接"><a href="#TCP-短连接与长连接" class="headerlink" title="TCP 短连接与长连接"></a>TCP 短连接与长连接</h2><p>短连接与长连接的关键区分在于，<code>是否复用TCP连接</code>，短连接每次使用完毕都会释放连接，长连接则会将连接放入池中，等待下次使用。<br>所以实现长连接一般都会有几个关键参数：</p>
 <ul>
 <li><code>最大连接数</code>: 其实就是连接池中保存连接数上限</li>
 <li><code>过期时间</code>: 当请求数下降时，我们没有必要再维护这么多连接，所以我们需要给每条连接设置过期时间，当过期后及时从池中移除</li>
@@ -424,7 +424,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/http-and-tcp/README/" data-id="ckizkw7tw0003zolm0brodu5m" data-title="http和tcp连接小记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/http-and-tcp/README/" data-id="ckizlxyvo000524lm94bydyr5" data-title="http和tcp连接小记" class="article-share-link">分享</a>
       
       
       
@@ -458,7 +458,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="go语言笔记"><a href="#go语言笔记" class="headerlink" title="go语言笔记"></a>go语言笔记</h1><p>这里记录一些与 go 相关的点</p>
+        <p>这里记录一些与 go 相关的点</p>
 <h2 id="GODBUEG"><a href="#GODBUEG" class="headerlink" title="GODBUEG"></a>GODBUEG</h2><p>可以通过环境<code>GODEBUG</code> 来输出 go 程序的相关信息，可选命令如下：</p>
 <ul>
 <li><code>allocfreetrace</code></li>
@@ -494,7 +494,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/go-notes/README/" data-id="ckizkw7ty0006zolm9xo9b2av" data-title="go语言笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/go-notes/README/" data-id="ckizlxyvn000324lmgffa16an" data-title="go语言笔记" class="article-share-link">分享</a>
       
       
       
@@ -528,7 +528,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="DDD实践心得"><a href="#DDD实践心得" class="headerlink" title="DDD实践心得"></a>DDD实践心得</h1><h2 id="ApplicationService-vs-DomainService"><a href="#ApplicationService-vs-DomainService" class="headerlink" title="ApplicationService vs DomainService"></a>ApplicationService vs DomainService</h2><ul>
+        <h2 id="ApplicationService-vs-DomainService"><a href="#ApplicationService-vs-DomainService" class="headerlink" title="ApplicationService vs DomainService"></a>ApplicationService vs DomainService</h2><ul>
 <li>两者的相同处：都是对领域对象的组装。</li>
 <li>两者不同处：<code>ApplicationService</code>不应该包含业务逻辑。</li>
 <li>如何判断是否包含逻辑：当一个<code>Service</code>中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个<code>Service</code>包含了业务逻辑</li>
@@ -548,7 +548,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/ddd-notes/README/" data-id="ckizkw7tw0004zolm1va4a8i5" data-title="DDD实践心得" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/ddd-notes/README/" data-id="ckizlxyvm000224lm7cmvcmwh" data-title="DDD实践心得" class="article-share-link">分享</a>
       
       
       
@@ -582,7 +582,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="CORS-Cross-Origin-resource-sharing-笔记"><a href="#CORS-Cross-Origin-resource-sharing-笔记" class="headerlink" title="CORS(Cross-Origin resource sharing) 笔记"></a>CORS(Cross-Origin resource sharing) 笔记</h1><p>CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">MDN</a></p>
+        <p>CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">MDN</a></p>
 <p>这里只介绍下一些需要注意的点：</p>
 <ul>
 <li>跨域问题只存在于<code>客户端有安全策略限制的情况</code>，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以<code>CORS</code>通常是前端考虑的问题。</li>
@@ -603,7 +603,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/cors-note/README/" data-id="ckizkw7tu0001zolm5l3dcbj1" data-title="CORS(Cross-Origin resource sharing) 笔记" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/cors-note/README/" data-id="ckizlxyvk000124lm2hqzeuxr" data-title="CORS(Cross-Origin resource sharing) 笔记" class="article-share-link">分享</a>
       
       
       
@@ -637,7 +637,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="OAuth2-0"><a href="#OAuth2-0" class="headerlink" title="OAuth2.0"></a>OAuth2.0</h2><p>OAuth2.0 协议是针对授权流程的标准协议，不包括验证，OIDC 是在 OAuth2.0 之上进行的补充，包含了用户身份信息。<br>有关它的详细内容在 [RFC6749] <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6749%EF%BC%8C%E5%90%8C%E6%97%B6%E8%BF%98%E6%9C%89%E9%92%88%E5%AF%B9%E6%92%A4%E5%9B%9EToken%E5%92%8C%E8%87%AA%E7%9C%81%E7%9A%84">https://tools.ietf.org/html/rfc6749，同时还有针对撤回Token和自省的</a> <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7009">RFC7009</a>、<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7662">RFC7662</a>。<br>撤回很容易理解，自省( introspection )指的是验证 token 有效性。<br>以及为了安全而生的 OAuth2.0 PKCE([RFC7636])。</p>
+        <p>OAuth2.0 协议是针对授权流程的标准协议，不包括验证，OIDC 是在 OAuth2.0 之上进行的补充，包含了用户身份信息。<br>有关它的详细内容在 [RFC6749] <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6749%EF%BC%8C%E5%90%8C%E6%97%B6%E8%BF%98%E6%9C%89%E9%92%88%E5%AF%B9%E6%92%A4%E5%9B%9EToken%E5%92%8C%E8%87%AA%E7%9C%81%E7%9A%84">https://tools.ietf.org/html/rfc6749，同时还有针对撤回Token和自省的</a> <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7009">RFC7009</a>、<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7662">RFC7662</a>。<br>撤回很容易理解，自省( introspection )指的是验证 token 有效性。<br>以及为了安全而生的 OAuth2.0 PKCE([RFC7636])。</p>
 <p>这里简单介绍下 OAuth2.0 定义的四种模式：</p>
 <ul>
 <li>AuthorizationCode Grant: 授权码模式是最常见也最安全的一种模式，简单来说，接入方( 或者叫应用 ) 通过凭据换取授权码，再通过授权码换取 Token，但是过程中有可能被中间人劫持，所以有了 <code>PKCE</code> 来拓展该模式，保证它的安全</li>
@@ -655,7 +655,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/22/auth/README/" data-id="ckizkw7tq0000zolm0fqb5b0h" data-title="OAuth2.0" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2020/12/22/auth/README/" data-id="ckizlxyvn000424lm9lx52oud" data-title="OAuth2.0" class="article-share-link">分享</a>
       
       
       
@@ -711,7 +711,7 @@
           </li>
         
           <li>
-            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">Nginx在云上环境的CPU最佳实践</a>
           </li>
         
           <li>
