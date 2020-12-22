@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Vinci&#39;s blog">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-apisix-plugin/index" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/apisix-plugin/index/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:50:34.767Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/22/apisix-plugin/index/">APISIX 插件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>插件的生命周期查看 <a target="_blank" rel="noopener" href="https://github.com/apache/incubator-apisix/blob/e6804360d1712d456cfee31b9d6abb8b16cfffba/doc/architecture-design-cn.md">这里</a></p>
+<p>插件的编写用法查看 <a target="_blank" rel="noopener" href="https://github.com/apache/incubator-apisix/blob/master/doc/plugin-develop-cn.md">这里</a></p>
+<p>值得注意的一点是，它的插件是按照 <code>Phase</code> 分层的。<br>比如有多个优先级不同的插件：<code>A &gt; B &gt; C</code>，他们的<code>Phase</code>执行顺序是：<br><code>A(rewrite) &gt; B(rewrite) &gt; C(rewrite) &gt; A (access) &gt; B (access) &gt; C (access)</code></p>
+<p>插件编写完毕后需要在<code>config.yaml</code>的<code>plugins</code>节点下加入你的插件名，然后调用<code>/apisix/admin/plugins/reload</code> 接口重载下插件即可。<br>如果发现插件没有生效，或者无法找到插件的提示，可以检查错误日志中的内容，apisix加载插件出错时会记录日志。</p>
+<h2 id="全局插件"><a href="#全局插件" class="headerlink" title="全局插件"></a>全局插件</h2><p>在记录这篇笔记时，官网还没有关于全局插件的用法介绍。<br>调查了下，apisix有<code>global rules</code>的对象可以指定全局的插件。</p>
+<p>特此记载了下用法</p>
+<h3 id="准备一个简单的插件"><a href="#准备一个简单的插件" class="headerlink" title="准备一个简单的插件"></a>准备一个简单的插件</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> core = <span class="built_in">require</span>(<span class="string">&quot;apisix.core&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> plugin_name = <span class="string">&quot;demo-plugin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> schema = &#123;</span><br><span class="line">    <span class="built_in">type</span> = <span class="string">&quot;object&quot;</span>,</span><br><span class="line">    <span class="comment">-- 这里是插件的属性, 详细参数可以参考其他其他插件</span></span><br><span class="line">    properties = &#123;</span><br><span class="line">        a_fixed_string = &#123; </span><br><span class="line">            <span class="built_in">type</span> = <span class="string">&quot;string&quot;</span></span><br><span class="line">        &#125;, </span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> _M = &#123;</span><br><span class="line">    version = <span class="number">0.1</span>,</span><br><span class="line">    priority = <span class="number">10086</span>,</span><br><span class="line">    name = plugin_name,</span><br><span class="line">    schema = schema,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查插件的定义是否有效</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_M.check_schema</span><span class="params">(conf)</span></span></span><br><span class="line">    <span class="keyword">local</span> ok, err = core.schema.check(schema, conf)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>, err</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 插件的rewrite步骤, 步骤的顺序可以参考文档中的链接</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_M.rewrite</span><span class="params">(conf, ctx)</span></span></span><br><span class="line">    <span class="comment">-- 通过conf读取预设的参数</span></span><br><span class="line">    core.<span class="built_in">log</span>.warn(<span class="string">&quot;get a requert, fixed string: &quot;</span> .. conf.a_fixed_string)</span><br><span class="line">    <span class="comment">-- 解开下行的注释可以直接返回指定的请求</span></span><br><span class="line">    <span class="comment">-- return 500, &#123; message = &quot;we got a error&quot; &#125;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> _M</span><br></pre></td></tr></table></figure>
+<p><em>启用的方法不再累述，参考上面</em></p>
+<h3 id="创建一个GlobalRule对象"><a href="#创建一个GlobalRule对象" class="headerlink" title="创建一个GlobalRule对象"></a>创建一个GlobalRule对象</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -X PUT \</span><br><span class="line">  https://&#123;apisix_listen_address&#125;/apisix/admin/global_rules/1 \</span><br><span class="line">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">  -d &#x27;&#123;</span><br><span class="line">   &quot;plugins&quot;: &#123;</span><br><span class="line">   		&quot;demo-plugin&quot;: &#123;</span><br><span class="line">   			&quot;a_fixed_string&quot;: &quot;FixedString&quot;</span><br><span class="line">   		&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/apisix-plugin/index/" data-id="ckizkw7tv0002zolm4inigmu6" data-title="APISIX 插件" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

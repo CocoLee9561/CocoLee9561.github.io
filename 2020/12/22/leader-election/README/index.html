@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Leader选举机制 | Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Leader选举机制简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leader选举机制">
+<meta property="og:url" content="http://example.com/2020/12/22/leader-election/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="Leader选举机制简介Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自Paxos或者其简化版本Raft。 算法原理 Paxos Raft  k8s 中的实现了解k8s的读者应该知道，k8s早期的master是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。它的实现方案就是使用了 Leader选举，并">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.088Z">
+<meta property="article:modified_time" content="2020-12-22T05:58:02.425Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-leader-election/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/leader-election/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.088Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Leader选举机制
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Leader选举机制是为了解决分布式系统中一致性问题常见的一种机制，目前多数开源组件的选举算法都来自<code>Paxos</code>或者其简化版本<code>Raft</code>。</p>
+<h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Raft">Raft</a></li>
+</ul>
+<h2 id="k8s-中的实现"><a href="#k8s-中的实现" class="headerlink" title="k8s 中的实现"></a>k8s 中的实现</h2><p>了解k8s的读者应该知道，k8s早期的<code>master</code>是没有实现高可用的，所以早期社区出现各种不同的考可用方案，直到v1.13后官方才原生支持高可用。<br>它的实现方案就是使用了 <code>Leader选举</code>，并且利用了<code>k8s</code>中<code>endpoint</code>来优雅地完成云原生的选举机制。<br>参考<a target="_blank" rel="noopener" href="https://github.com/kubernetes/client-go/blob/b8fba595e8fa8e1f8dbad9b31129da74b3b6466b/tools/leaderelection/leaderelection.go#L76">client-go leader-election</a></p>
+<p>另外还有一个SideCar使用这个库来完成 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-retired/contrib/tree/master/election">contrib/election</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/leader-election/README/" data-id="ckizkw7tz0008zolm2b7mbk72" data-title="Leader选举机制" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/linux-memo/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Linux 系统小计
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/kubebuild-and-kustomize/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Kubebuilder 与 Kustomize</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

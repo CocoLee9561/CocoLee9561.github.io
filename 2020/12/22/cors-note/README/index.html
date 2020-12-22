@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>CORS(Cross-Origin resource sharing) 笔记 | Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="CORS(Cross-Origin resource sharing) 笔记CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORS(Cross-Origin resource sharing) 笔记">
+<meta property="og:url" content="http://example.com/2020/12/22/cors-note/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="CORS(Cross-Origin resource sharing) 笔记CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 MDN 这里只介绍下一些需要注意的点：  跨域问题只存在于客户端有安全策略限制的情况，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以CORS通常是前端考虑的问题。 CORS有简单请求和需预检的请求">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.036Z">
+<meta property="article:modified_time" content="2020-12-22T05:58:46.405Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-cors-note/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/cors-note/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.036Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CORS(Cross-Origin resource sharing) 笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="CORS-Cross-Origin-resource-sharing-笔记"><a href="#CORS-Cross-Origin-resource-sharing-笔记" class="headerlink" title="CORS(Cross-Origin resource sharing) 笔记"></a>CORS(Cross-Origin resource sharing) 笔记</h1><p>CORS是一种为了解决跨域请求而诞生的规范，详细规范参见 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">MDN</a></p>
+<p>这里只介绍下一些需要注意的点：</p>
+<ul>
+<li>跨域问题只存在于<code>客户端有安全策略限制的情况</code>，典型的如：浏览器，此时安全策略会阻止你进行跨域访问。如果是自己编写的程序，没有安全策略的限制，则不需要考虑跨域，所以<code>CORS</code>通常是前端考虑的问题。</li>
+<li>CORS有<code>简单请求</code>和<code>需预检的请求</code>区分，只有<code>需预检的请求</code>才会发起<code>OPTIONS</code>，两者的区分参考上面的MDN。</li>
+<li>如果需要对凭据进行操作时，比如 携带了<code>Cookie</code>，此时需要设置<code>Access-Control-Allow-Credentials: true</code>，否则请求将会被浏览器拒绝。</li>
+<li>在<code>Access-Control-Allow-Credentials: true</code>时，无法设置字段为通配符<code>*</code>。其他情况下任意字段都可以设置为通配符。这是因为允许携带凭据会带来安全隐患，浏览默认会拒绝 Ajax 的跨域请求，通常 CSRF 攻击只能通过 <code>script</code> 标签、<code>form</code> 表单 或者 有副作用的 <code>GET</code> 来完成，但是一旦开启了 <code>Access-Control-Allow-Credentials: true</code>，且不限制 <code>Origin</code> 等，那么会有更大的风险遭受 CSRF 攻击。</li>
+<li>Access-Control-Max-Age各个浏览器的最大时长不一样，<ul>
+<li>Firefox caps this at 24 hours (86400 seconds).</li>
+<li>Chromium (prior to v76) caps at 10 minutes (600 seconds).</li>
+<li>Chromium (starting in v76) caps at 2 hours (7200 seconds).</li>
+<li>Chromium also specifies a default value of 5 seconds.</li>
+<li>A value of -1 will disable caching, requiring a preflight OPTIONS check for all calls.</li>
+</ul>
+</li>
+<li>当 <code>Access-Control-Allow-Origin</code> 不为 <code>*</code> 或者 <code>静态Origin</code> 时，比如可以根据访问方的 <code>Origin</code> 头部进行动态返回时，要注意设置 <code>Vary: Origin</code> 这样浏览器才不会缓存上一次的 <code>CORS</code> 返回头，也不会引起 <code>缓存中毒</code> 的安全隐患，缓存中毒，指攻击利用浏览器根据 url 缓存返回结果的特性，从自己的攻击站点发起 <code>XSS</code> 攻击，此时浏览器将会直接使用上一次的跨域请求回复，而通过攻击者的请求。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/cors-note/README/" data-id="ckizkw7tu0001zolm5l3dcbj1" data-title="CORS(Cross-Origin resource sharing) 笔记" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/ddd-notes/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          DDD实践心得
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/auth/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">OAuth2.0</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

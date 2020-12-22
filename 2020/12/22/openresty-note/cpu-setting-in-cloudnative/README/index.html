@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Nginx在云上环境的CPU最佳实践目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vinci&#39;s blog">
+<meta property="og:url" content="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="Nginx在云上环境的CPU最佳实践目录 背景 Nginx的CPU相关设置 k8s的CPU策略 方案对比 结论  背景最近有用户反馈 ApacheAPISIX 在云原生环境下存在几个问题：  无法获取容器准确核数 配置了多核的情况下无法完全利用  这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.170Z">
+<meta property="article:modified_time" content="2020-12-21T08:22:22.588Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-openresty-note/cpu-setting-in-cloudnative/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.170Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Nginx在云上环境的CPU最佳实践"><a href="#Nginx在云上环境的CPU最佳实践" class="headerlink" title="Nginx在云上环境的CPU最佳实践"></a>Nginx在云上环境的CPU最佳实践</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#Nginx%E7%9A%84CPU%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE">Nginx的CPU相关设置</a></li>
+<li><a href="#k8s%E7%9A%84CPU%E7%AD%96%E7%95%A5">k8s的CPU策略</a></li>
+<li><a href="#%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94">方案对比</a></li>
+<li><a href="#%E7%BB%93%E8%AE%BA">结论</a></li>
+</ul>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近有用户反馈 <a target="_blank" rel="noopener" href="https://github.com/apache/apisix">ApacheAPISIX</a> 在云原生环境下存在几个问题：</p>
+<ul>
+<li>无法获取容器准确核数</li>
+<li>配置了多核的情况下无法完全利用</li>
+</ul>
+<p>这里先简单介绍项目相关的情况，APISIX 是一个基于 Openresty 的开源网关。而 Openresty 其实就是 Nginx + LuaJIT，那么我们要调查问题其实跟 Nginx 是脱不开关系的。</p>
+<h3 id="Nginx的CPU相关设置"><a href="#Nginx的CPU相关设置" class="headerlink" title="Nginx的CPU相关设置"></a>Nginx的CPU相关设置</h3><p>首先看看第一个问题：<strong>无法获取容器准确核数</strong>，这个问题的起因是因为在 Nginx 配置中使用了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker_processes auto;</span><br></pre></td></tr></table></figure>
+<p><code>auto</code> 意味 Nginx 会自动获取 CPU 核数，然后根据核数创建 worker。不幸的是，在容器当中它获取到的是 <strong>母机的核数</strong> 导致 Nginx 会在容器中创建数十个甚至上百个 worker，多个 worker 间的资源竞争和上下文切换都会降低它的性能。<br>为了核验 Nginx 是否真的获取的是母机核数，我翻了下 Nginx 相关的代码，截取核心片段如下：<br>src/os/unix/ngx_posix_init.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ngx_config.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ngx_core.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;nginx.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">ngx_int_t</span>   ngx_ncpu;</span><br><span class="line"><span class="keyword">ngx_int_t</span>   ngx_max_sockets;</span><br><span class="line"><span class="keyword">ngx_uint_t</span>  ngx_inherited_nonblocking;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (NGX_HAVE_SC_NPROCESSORS_ONLN)</span></span><br><span class="line">    <span class="keyword">if</span> (ngx_ncpu == <span class="number">0</span>) &#123;</span><br><span class="line">        ngx_ncpu = sysconf(_SC_NPROCESSORS_ONLN);</span><br></pre></td></tr></table></figure>
+<p>查看 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man3/sysconf.3.html">sysconf</a> 的文档发现底层调用的 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man3/get_nprocs_conf.3.html"> get_nprocs_conf(3)</a>, 继续查看它的<a target="_blank" rel="noopener" href="https://code.woboq.org/userspace/glibc/sysdeps/unix/sysv/linux/getsysstats.c.html#__get_nprocs_conf">源码</a>，核心片段如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* On some architectures it is possible to distinguish between configured</span></span><br><span class="line"><span class="comment">   and active cpus.  */</span></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">__get_nprocs_conf (<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* XXX Here will come a test for the new system call.  */</span></span><br><span class="line">  <span class="comment">/* Try to use the sysfs filesystem.  It has actual information about</span></span><br><span class="line"><span class="comment">     online processors.  */</span></span><br><span class="line">  DIR *dir = __opendir (<span class="string">&quot;/sys/devices/system/cpu&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (dir != <span class="literal">NULL</span>)</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>注意这个路径 <code>/sys/devices/system/cpu</code>，随便进入到一个容器中，ls 一下它你会发现它是母机的CPU信息，类似下面：<br><image src="./images/cpulist.png"></p>
+<p>OK，第一个问题至此已确认完毕，我们先看看第二个问题再讨论解决方案，因为看上去它们应该是关联的。</p>
+<h3 id="k8s的CPU策略"><a href="#k8s的CPU策略" class="headerlink" title="k8s的CPU策略"></a>k8s的CPU策略</h3><p>关于第二个问题：<strong>配置了多核的情况下无法完全利用</strong>，直觉这个问题跟另一个 Nginx 的配置参数有关：<code>worker_cpu_affinity</code>，它可以指定 Nginx绑定到几号核。手动指定的场景我们直接跳过，通常我们都是使用 <code>auto</code> 参数。看下当设置 auto 时，Nginx 会怎么绑定CPU，核心代码片段如下：<br>src/core/nginx.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ngx_strcmp(value[<span class="number">1</span>].data, <span class="string">&quot;auto&quot;</span>) == <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cf-&gt;args-&gt;nelts &gt; <span class="number">3</span>) &#123;</span><br><span class="line">        ngx_conf_log_error(NGX_LOG_EMERG, cf, <span class="number">0</span>,</span><br><span class="line">                           <span class="string">&quot;invalid number of arguments in &quot;</span></span><br><span class="line">                           <span class="string">&quot;\&quot;worker_cpu_affinity\&quot; directive&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> NGX_CONF_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ccf-&gt;cpu_affinity_auto = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    CPU_ZERO(&amp;mask[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (<span class="keyword">ngx_uint_t</span>) ngx_min(ngx_ncpu, CPU_SETSIZE); i++) &#123;</span><br><span class="line">        CPU_SET(i, &amp;mask[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    n = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    n = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到CPU的绑核策略是顺序从低位到高位，这样做在普通的物理机本来没什么问题，但是在 k8s 的环境下就不行了，原因有两个：</p>
+<ul>
+<li>绑核动作需要特权执行，通常 POD 是没有权限的</li>
+<li>在于 k8s 在<code>static</code> 策略下本来就会对 limit 为整数的 <code>Guaranteed</code> POD进行绑核处理，可以参考 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/cpu-management-policies/">控制节点上的 CPU 管理策略</a> 。</li>
+</ul>
+<p>所以云上应用都不建议再去应用进行绑核操作。</p>
+<p>回过头来说 Nginx 自动从低位CPU绑到高位的这个操作，没有特权的情况会怎样？上面的代码片段我们看到它使用了 <code>CPU_SET</code> 这个系统调用，相关的方法签名如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void CPU_SET(int cpu, cpu_set_t *set);</span><br></pre></td></tr></table></figure>
+<p>意味着无论绑核成功或失败，<strong>程序都得不到响应</strong>。为了验证这个结论，我们创建一个 Nginx 应用( 1c1g )，然后在容器执行以下命令查看绑定的核：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh-4.2# cat &#x2F;sys&#x2F;fs&#x2F;cgroup&#x2F;cpuset&#x2F;cpuset.cpus</span><br><span class="line">45</span><br></pre></td></tr></table></figure>
+<p>可以看到绑定到了第45号核(由0开始)，在母机上执行 <code>htop</code> 可以看到这里的第46号核(由1开始)，完全没有使用率：<br><image src="./images/htop-before.png"></p>
+<p>开始执行压测后：<br><image src="./images/htop-after.png"></p>
+<p>很明显，Nginx 绑核并没有成功，容器依然绑定在原来的CPU上。<br>通常来说，没有特殊原因都不建议云上应用再去执行绑核操作，保持不变即可。</p>
+<h3 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h3><p>开始我以为多核无法利用的情况，是容器绑定的核与应用绑定的核只有小部分重叠，所以才导致无法有效利用。但现在看来，没有 <strong>特权</strong> 的 Nginx 甚至连绑核都做不到，那么我们要继续考虑其他可能的问题。<br>列举以下情况：<br>| 情况 | QPS | CPU使用率 |<br>| — | — | — |<br>| 1c2g-1workers | 10959.22 | 100% |<br>| 2c4g-1workers | 11845.91 | 100% |<br>| 2c4g-2workers | 16975.04 | 200% |<br>| 1c2g-1workers * 2 | 22492.83 | 200% |<br>| 4c8g-2workers | 20506.10 | 200% |<br>| 4c8g-4workers | 31012.40 | 400% |<br>| 1c2g-1workers * 4 | 51720.11 | 400% |<br>| 1.001c2g-1workers * 4 | 47501.16 | 401% |</p>
+<p>这里我们可以看到使用多个单核的容器会比使用多核的单个容器具有更高的吞吐量，可能的原因有两点：</p>
+<ul>
+<li>多个worker间存在资源竞争</li>
+<li>单核容器由于可用核只有一个，所以相当于进行了绑核操作</li>
+</ul>
+<p>为了排除第二个原因的影响，我补充图表中的最后一个用例(1.001c2g-1workers * 4)，这个用例中由于cpu不是整数核，所以没有分配独占cpu。可以发现它的吞吐量下降了8%左右，证明绑核还是有效果的。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>通过以上的实验，我们可以得出几个关键点：</p>
+<ul>
+<li>worker 少于 cpu 数量时无法充分利用 cpu</li>
+<li>云上的 Nginx 最好使用 <strong>单核多容器</strong> 的部署模式，这样可以充分利用k8s的cpu策略进行绑核，单worker也是Nginx的推荐设置，如果要设置多个 worker，那么不要使用 <code>auto</code> 参数，获取到的将会是母机核数</li>
+<li>如果要使用多核的情况下，尽量不要使用过大的cpu数量，推荐最多8个，否则 worker 数量过多会造成大量资源浪费在处理竞争上</li>
+<li>云上不要使用 <code>worker_cpu_affinity=auto</code>，因为除了需要特权外，顺位绑核的操作不一定能绑定到 k8s 分配的独占核，极端情况下还会导致不可用，所以在云上环境多结合 k8s 的 CPU策略 来使用才是最佳实践</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/" data-id="ckizkw7u7000kzolm0koa8sej" data-title="" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/pprof/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          简单易懂的 pprof 手册
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/openresty-note/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Openresty 笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

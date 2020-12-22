@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>go语言笔记 | Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="go语言笔记这里记录一些与 go 相关的点 GODBUEG可以通过环境GODEBUG 来输出 go 程序的相关信息，可选命令如下：  allocfreetrace clobberfree cgocheck efence gccheckmark gcpacertrace gcshrinkstackoff gctrace madvdontneed memprofilerate invalidptr s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言笔记">
+<meta property="og:url" content="http://example.com/2020/12/22/go-notes/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="go语言笔记这里记录一些与 go 相关的点 GODBUEG可以通过环境GODEBUG 来输出 go 程序的相关信息，可选命令如下：  allocfreetrace clobberfree cgocheck efence gccheckmark gcpacertrace gcshrinkstackoff gctrace madvdontneed memprofilerate invalidptr s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.060Z">
+<meta property="article:modified_time" content="2020-12-22T05:58:36.751Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-go-notes/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/go-notes/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.060Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      go语言笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="go语言笔记"><a href="#go语言笔记" class="headerlink" title="go语言笔记"></a>go语言笔记</h1><p>这里记录一些与 go 相关的点</p>
+<h2 id="GODBUEG"><a href="#GODBUEG" class="headerlink" title="GODBUEG"></a>GODBUEG</h2><p>可以通过环境<code>GODEBUG</code> 来输出 go 程序的相关信息，可选命令如下：</p>
+<ul>
+<li><code>allocfreetrace</code></li>
+<li><code>clobberfree</code></li>
+<li><code>cgocheck</code></li>
+<li><code>efence</code></li>
+<li><code>gccheckmark</code></li>
+<li><code>gcpacertrace</code></li>
+<li><code>gcshrinkstackoff</code></li>
+<li><code>gctrace</code></li>
+<li><code>madvdontneed</code></li>
+<li><code>memprofilerate</code></li>
+<li><code>invalidptr</code></li>
+<li><code>sbrk</code></li>
+<li><code>scavenge</code></li>
+<li><code>scheddetail</code></li>
+<li><code>schedtrace</code></li>
+<li><code>tracebackancestors</code></li>
+<li><code>asyncpreemptoff</code></li>
+</ul>
+<p>完整命令参考 <a target="_blank" rel="noopener" href="https://golang.org/pkg/runtime/">这里</a><br>值得一提得是，可以通过<code>name=val,name=val</code>来启用多个命令，如：</p>
+<ul>
+<li>``</li>
+</ul>
+<h2 id="http库的-ServeHttp-不能修改-request-的内容"><a href="#http库的-ServeHttp-不能修改-request-的内容" class="headerlink" title="http库的 ServeHttp 不能修改 request 的内容"></a>http库的 ServeHttp 不能修改 request 的内容</h2><p>很有意思的一点，在 <code>ServeHttp</code> 代码注释中写着</p>
+<blockquote>
+<p>Except for reading the body, handlers should not modify the<br>provided Request.</p>
+</blockquote>
+<p>稍微调查了下原因，是因为大量的现存代码会受到影响，所以在 <code>http.StripPrefix</code> 函数中，对 <code>Request</code> 进行了深拷贝。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StripPrefix</span><span class="params">(prefix <span class="keyword">string</span>, h Handler)</span> <span class="title">Handler</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> prefix == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> h</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> HandlerFunc(<span class="function"><span class="keyword">func</span><span class="params">(w ResponseWriter, r *Request)</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> p := strings.TrimPrefix(r.URL.Path, prefix); <span class="built_in">len</span>(p) &lt; <span class="built_in">len</span>(r.URL.Path) &#123;</span><br><span class="line">			r2 := <span class="built_in">new</span>(Request)</span><br><span class="line">			*r2 = *r</span><br><span class="line">			r2.URL = <span class="built_in">new</span>(url.URL)</span><br><span class="line">			*r2.URL = *r.URL</span><br><span class="line">			r2.URL.Path = p</span><br><span class="line">			h.ServeHTTP(w, r2)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			NotFound(w, r)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考资料: <a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/27277">net/http: allow handlers to modify the http.Request</a>, <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13255907/in-go-http-handlers-why-is-the-responsewriter-a-value-but-the-request-a-pointer?rq=1">stack-overflow</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/go-notes/README/" data-id="ckizkw7ty0006zolm9xo9b2av" data-title="go语言笔记" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/http-and-tcp/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          http和tcp连接小记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/ddd-notes/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DDD实践心得</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

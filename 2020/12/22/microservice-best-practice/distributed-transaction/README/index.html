@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>分布式事务笔记 | Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="分布式事务笔记分布式事务的常见解决方案：  2PC: perpare + commit 3PC: can_commit + pre_commit + do_commit TCC: try + confirm + cancel Saga: Events&#x2F;Choreography or Command&#x2F;Orchestration 本地消息表: local + event  2PC2PC 由协调器通知各">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务笔记">
+<meta property="og:url" content="http://example.com/2020/12/22/microservice-best-practice/distributed-transaction/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="分布式事务笔记分布式事务的常见解决方案：  2PC: perpare + commit 3PC: can_commit + pre_commit + do_commit TCC: try + confirm + cancel Saga: Events&#x2F;Choreography or Command&#x2F;Orchestration 本地消息表: local + event  2PC2PC 由协调器通知各">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.130Z">
+<meta property="article:modified_time" content="2020-12-22T05:57:23.768Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-microservice-best-practice/distributed-transaction/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/microservice-best-practice/distributed-transaction/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.130Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      分布式事务笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="分布式事务笔记"><a href="#分布式事务笔记" class="headerlink" title="分布式事务笔记"></a>分布式事务笔记</h1><p>分布式事务的常见解决方案：</p>
+<ul>
+<li>2PC: perpare + commit</li>
+<li>3PC: can_commit + pre_commit + do_commit</li>
+<li>TCC: try + confirm + cancel</li>
+<li>Saga: Events/Choreography or Command/Orchestration</li>
+<li>本地消息表: local + event</li>
+</ul>
+<h2 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h2><p>2PC 由协调器通知各个事务参与者，由 <code>perpare</code> 与 <code>commit</code> 两个阶段组成，前者通知所有参与者预备事务，后者通知参与者真实提交事务。如果有参与者在 <code>prepare</code> 阶段失败，那么会通知所有参与者回滚。</p>
+<p>优点:</p>
+<ul>
+<li>步骤少，简单</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>协调器单点故障</li>
+<li>会阻塞其他参与者的事务</li>
+<li><code>commit</code> 阶段可能出现消息丢失</li>
+</ul>
+<h2 id="3PC"><a href="#3PC" class="headerlink" title="3PC"></a>3PC</h2><p>3PC 在 2PC 的基础上增加了各个参与者的超时时间，如果参与者在超时是时间内没有相应，那么视为失败。3PC 依然没有解决 <code>commit</code> 消息丢失的问题。</p>
+<h2 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h2><p>TCC 相当于 3PC 的完善，除了超时机制外，还存在 <code>cancel</code> 步骤，意味着可以在 <code>commit</code> 失败后进行补偿。</p>
+<h2 id="Saga"><a href="#Saga" class="headerlink" title="Saga"></a>Saga</h2><p>Saga 是一种长活事务的设计模式( Long-live transaction )，它基于 1978 年的一篇论文，主要有两种实现：Events/Choreography or Command/Orchestration<br>可以参考：<a target="_blank" rel="noopener" href="https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part/">saga-pattern-implement-business-transactions-using-microservices-part</a>、<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/architecture/%E3%80%82reference-architectures/saga/saga">saga</a>。</p>
+<p>这里说一些需要注意的点：</p>
+<ul>
+<li><code>Choreography</code> 与 <code>Orchestration</code> 都有编排的意思，但是前者是不需要 <code>协调器(Orchestrator)</code> 的角色，都是参与者通过 <code>事件</code> 相互协作。参考 <a target="_blank" rel="noopener" href="https://medium.com/ingeniouslysimple/choreography-vs-orchestration-a6f21cfaccae">choreography-vs-orchestration</a></li>
+<li>微软的 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/architecture/microservices/architect-microservice-container-applications/asynchronous-message-based-communication">基于容器化的微服务架构设计</a> 极力推荐服务间通过异步消息来通信，其实就是 <code>Events/Choreography</code> 模式的实现。</li>
+<li><code>Command/Orchestration</code> 模式可以将 <code>协调器</code> 角色集成到调用者服务中，也可以共用一个 <code>中心协调器</code>，一般更推荐前一种模式，除非业务中存在大量类似需求。两者都需要注意多个实例时可能会存在多次执行的问题，所以一般都会涉及选主操作。</li>
+<li><code>Command/Orchestration</code> 模式下如果将 <code>协调器</code> 集中到调用者服务时，需要考虑多个副本间的竞争关系。如果使用 <code>k8s</code> 集群，可以通过 <code>Sidecar</code> 方式来进行 Leader选举 从而轻松解决竞争问题，参考 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-retired/contrib/tree/master/election">contrib/election</a>。</li>
+<li><code>Events/Choreography</code> 应该作为系统首选方案，只有事务涉及服务太多( &gt; 4 )的情况再考虑 <code>Command/Orchestration</code>。</li>
+<li><code>Events/Choreography</code> 要注意推送事件失败时的重试与补偿机制，需要的情况下可以使用 <code>本地消息表</code> 模式</li>
+<li><code>Saga</code> 有两种错误恢复机制： <code>BackwordRecovery</code> 与 <code>ForwardRecovery</code>，前者指当某个参与者失败时，逆序对所有参与者调用补偿操作，这意味着这个事务的所有参与者都要实现一个补偿操作；而<code>ForwardRecovery</code> 则会重新对参与者发送请求，直到其成功，所以要求操作必须 <code>幂等</code>，由于这种恢复机制会假设永远成功，所以不需要实现补偿操作。</li>
+<li>常用搭配：<ul>
+<li><code>Events/Choreography</code> + <code>ForwardRecovery</code>: 实现最为简洁，应对事务复杂度较低，可以容忍实时性下限过低的场景</li>
+<li><code>Command/Orchestration</code> + <code>BackwordRecovery</code>: 实现最为复杂，应对复杂事务与无法容忍实时性下限过低的场景</li>
+</ul>
+</li>
+</ul>
+<h2 id="本地消息表"><a href="#本地消息表" class="headerlink" title="本地消息表"></a>本地消息表</h2><p>这是 <code>eBay</code> 的一种设计模式，用于确保消息推送时的一致性。<br>通常情况调用服务很难保证 <code>提交自身事务</code> 与 <code>推送消息</code> 两者是强一致的，你很难保证网络不出问题，所以这种情况可以采用 <code>本地消息表</code> 模式，在本地存储中新建一个消息表，将需要发送的消息与事务数据放入同一个事务中落库，再异步发送消息，这样可以保证两个动作的强一致。</p>
+<p>可以把这种模式作为 <code>Events/Choreography</code> 的一个补充，虽然我觉得多数情况有重试和补偿机制已经足够了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/microservice-best-practice/distributed-transaction/README/" data-id="ckizkw7u7000jzolmdju80z8l" data-title="分布式事务笔记" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/mutually-exclusive-and-idempotency/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          互斥性与幂等性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/microservice-best-practice/distributed-consistence/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">分布式一致性</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

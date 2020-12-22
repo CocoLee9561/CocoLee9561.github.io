@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DDD实践心得 | Vinci&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="DDD实践心得ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainServic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD实践心得">
+<meta property="og:url" content="http://example.com/2020/12/22/ddd-notes/README/index.html">
+<meta property="og:site_name" content="Vinci&#39;s blog">
+<meta property="og:description" content="DDD实践心得ApplicationService vs DomainService 两者的相同处：都是对领域对象的组装。 两者不同处：ApplicationService不应该包含业务逻辑。 如何判断是否包含逻辑：当一个Service中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个Service包含了业务逻辑 DomainService是否纯粹: 当一个DomainServic">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-22T05:53:19.053Z">
+<meta property="article:modified_time" content="2020-12-22T05:58:41.167Z">
+<meta property="article:author" content="Vinci Xu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Vinci's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Vinci&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">This is Vinci</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ddd-notes/README" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/22/ddd-notes/README/" class="article-date">
+  <time class="dt-published" datetime="2020-12-22T05:53:19.053Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DDD实践心得
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="DDD实践心得"><a href="#DDD实践心得" class="headerlink" title="DDD实践心得"></a>DDD实践心得</h1><h2 id="ApplicationService-vs-DomainService"><a href="#ApplicationService-vs-DomainService" class="headerlink" title="ApplicationService vs DomainService"></a>ApplicationService vs DomainService</h2><ul>
+<li>两者的相同处：都是对领域对象的组装。</li>
+<li>两者不同处：<code>ApplicationService</code>不应该包含业务逻辑。</li>
+<li>如何判断是否包含逻辑：当一个<code>Service</code>中包含了分支(复杂度大于1), 且分支条件由函数本身决定，那么这个<code>Service</code>包含了业务逻辑</li>
+<li>DomainService是否纯粹: 当一个<code>DomainService</code>仅仅包含领域对象时，则为纯粹的领域服务</li>
+<li>实体是否可以注入<code>DomainService</code>: 非纯粹的领域服务最好不要注入，纯粹的领域服务谨慎注入, 服务多数情况下应该处于上层<br>参考<a target="_blank" rel="noopener" href="https://enterprisecraftsmanship.com/posts/domain-vs-application-services/">Domain services vs Application services</a></li>
+</ul>
+<h2 id="实体是否可以注入仓储"><a href="#实体是否可以注入仓储" class="headerlink" title="实体是否可以注入仓储"></a>实体是否可以注入仓储</h2><p>不可以，有以下几点原因</p>
+<ul>
+<li>领域对象的知识应该尽可能纯粹, 仅包含业务知识</li>
+<li>实体不应该知道另一个实体如何保留的知识，这样会过多让实体的生命周期边界变得模糊</li>
+<li>如果你的实体需要访问仓储, 可能这段逻辑更适合放入<code>DomainService</code>中</li>
+</ul>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><ul>
+<li>仓储只应该提供 <code>增删改</code> 相关逻辑的查询，不要直接混用提供给调用方和提供给内部逻辑的 <code>List</code> 查询方法，因为对外一般都需要分页等等，但内部不需要</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/22/ddd-notes/README/" data-id="ckizkw7tw0004zolm1va4a8i5" data-title="DDD实践心得" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/go-notes/README/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          go语言笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/cors-note/README/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">CORS(Cross-Origin resource sharing) 笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/prometheus/README/">Prometheus</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/pprof/README/">简单易懂的 pprof 手册</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/cpu-setting-in-cloudnative/README/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/openresty-note/README/">Openresty 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/22/net-analysis/README/">网络分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 Vinci Xu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
